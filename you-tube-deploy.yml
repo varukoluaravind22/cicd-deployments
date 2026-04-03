@@ -1,0 +1,40 @@
+apiVersion : v1
+kind: Deployment
+metadata: 
+  name: youtube-deploy
+  labels:
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    labels: 
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: you-tube
+      image: varukoluaravind22/ci-cd:youtubecicd
+      ports:
+      - containerPort: 32717
+      resources:
+        limits:
+         cpu: 500m
+        requests: 
+          cpu: 200m
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: youtube-svc
+spec:
+  type: LoadBalancer
+  selector:
+    tier: frontend
+  ports:
+  - targetport: 32717
+    port: 32717
